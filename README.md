@@ -10,7 +10,7 @@ Roadmap for MVP:
 - get successor information through wikipedia api x
 - display that information x
 - make an api call to that succesor's page on wikipedia and display his information x
-- make a function that will keep doing this 3 levels deep 
+- make a function that will keep doing this 3 levels deep x
 - make it into some kind of pedigree with d3 
 - make presentation 
 

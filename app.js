@@ -5,6 +5,7 @@ $(function() {
     var query = $("#monarch").val();
     searchBox(query);
   });
+  var monarchs = [];
   // ajax request
   var requests = 0;
   var getWikiBox = function(monarch) {
@@ -26,16 +27,23 @@ $(function() {
             $('#display').append('<strong>Main guy</strong>: ' + data.parse.title);
             // get successor information
             var successor = infobox.find('th:contains("Successor")').next().first();
+            monarchs.push({
+              name: data.parse.title,
+              successor: successor.text()
+            });
+
             successor.prepend('<strong>That guy\'s successor</strong>: ');
             $('#display').append(successor);
             // get successors url info 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
+            // push this monarchs information into the monarchs array
             // make recursive ajax call three levels down
             if(requests < 3) {
               getWikiBox(url);
             }
             else {
+              console.log(monarchs);
               requests = 0;
             }
             requests++;
@@ -44,7 +52,6 @@ $(function() {
         }
     });
   };
-  // getWikiBox('Charles_V,_Holy_Roman_Emperor');
   var searchBox = function(query) {
     $('#display').empty();
     $(document).ready(function(){
@@ -63,7 +70,7 @@ $(function() {
                   getWikiBox(string);
                 } 
                 else {
-                  $('#display').append('<h3>Sorry, no monarch found for that name</h3>');
+                  $('#display').append('<h3>Sorry, no monarch found for that name.</h3>');
                 } 
             },
             error: function (errorMessage) {
