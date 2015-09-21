@@ -23,14 +23,15 @@ $(function() {
           var infobox = $('#content .infobox');
           // get main character information
           $('#display').append('<p><strong>Main guy</strong>: ' + data.parse.title + '</p>');
-          // var main = infobox.find('th:contains("Successor")').next();
-          // var main = successor.first();
-          // $('#display').append(successor);
           // get successor information
           var successor = infobox.find('th:contains("Successor")').next();
           var successor = successor.first();
           successor.prepend('<strong>That guy\'s successor</strong>: ');
           $('#display').append(successor);
+          // get successors url info 
+          var url = successor.find('a').attr('href');
+          url = url.split('/')[2];
+          console.log(url);
           
 
       },
