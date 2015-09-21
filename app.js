@@ -15,8 +15,10 @@ $(function() {
       dataType: "json",
       success: function (data, textStatus, jqXHR) {
           content = data;
-          console.log(data);
-          $('#content').append('<p>data</p>');
+          console.log(data.parse.text['*']);
+          $('#content').append('<p>' + data.parse.title + '</p>');
+          $('#content').append(data.parse.text['*']);
+
       },
       error: function (errorMessage) {
       }
