@@ -35,6 +35,9 @@ $(function() {
             if(requests < 3) {
               getWikiBox(url);
             }
+            else {
+              requests = 0;
+            }
             requests++;
         },
         error: function (errorMessage) {
@@ -43,6 +46,7 @@ $(function() {
   };
   // getWikiBox('Charles_V,_Holy_Roman_Emperor');
   var searchBox = function(query) {
+    $('#display').empty();
     $(document).ready(function(){
         $.ajax({
             type: "GET",
