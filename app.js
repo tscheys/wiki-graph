@@ -14,18 +14,23 @@ $(function() {
       async: false,
       dataType: "json",
       success: function (data, textStatus, jqXHR) {
-          content = data.parse.text['*'];
-          console.log(content);
-          // console.log(data.parse.text['*']);
+          // check original page
+          console.log(data.parse.text['*']);
+          // add html to page (invisible via css)
           var html = $.parseHTML(data.parse.text['*']);
           $('#content').append(html);
-          // var box = $(content).query('.infobox vcard').text();
-          // console.log(box);
+          // query infobox
           var infobox = $('#content .infobox');
-          var successor = $('#content .infobox').find('th:contains("Successor")').next();
+          // get main character information
+          $('#display').append('<p><strong>Main guy</strong>: ' + data.parse.title + '</p>');
+          // var main = infobox.find('th:contains("Successor")').next();
+          // var main = successor.first();
+          // $('#display').append(successor);
+          // get successor information
+          var successor = infobox.find('th:contains("Successor")').next();
           var successor = successor.first();
-          $('#display').append(success);
-          $('#diplay').append('<p>' + data.parse.title + '</p>');
+          successor.prepend('<strong>That guy\'s successor</strong>: ');
+          $('#display').append(successor);
           
 
       },
