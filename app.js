@@ -1,6 +1,5 @@
 $(function() {
   // data 
-  var content;
   // search functionality
   $('#search').on('click', function(e) {
     var query = $("#monarch").val();
@@ -17,8 +16,9 @@ $(function() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             // check original page
-            console.log(data.parse.text['*']);
+            // console.log(data.parse.text['*']);
             // add html to page (invisible via css)
+            $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
             // query infobox
@@ -27,16 +27,19 @@ $(function() {
             $('#display').append('<p><strong>Main guy</strong>: ' + data.parse.title + '</p>');
             // get successor information
             var successor = infobox.find('th:contains("Successor")').next();
-            var successor = successor.first();
+            successor = successor.first();
             successor.prepend('<strong>That guy\'s successor</strong>: ');
             $('#display').append(successor);
             // get successors url info 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
-            console.log(url);
+
             requests++;
+            // console.log('monarch ' + monarch);
+            // console.log('successor', successor.text());
+            // console.log('url' + url);
             if(requests < 3) {
-              getWikiBox(url)
+              getWikiBox(url);
             }
         },
         error: function (errorMessage) {
