@@ -56,9 +56,15 @@ $(function() {
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 console.log(data);
-                var arr = data[3][0].split('/');
-                var string = arr[arr.length - 1];
-                getWikiBox(string);
+                var wasFound = Boolean(data[1].length !== 0);
+                if(wasFound) {
+                  var arr = data[3][0].split('/');
+                  var string = arr[arr.length - 1];
+                  getWikiBox(string);
+                } 
+                else {
+                  $('#display').append('<h3>Sorry, no monarch found for that name</h3>');
+                } 
             },
             error: function (errorMessage) {
               console.log(errorMessage);
