@@ -3,48 +3,64 @@ $(function() {
   // search functionality
   $('#search').on('click', function(e) {
     var query = $("#monarch").val();
-    console.log('monarch: ' + query);
+    searchBox(query);
   });
   // ajax request
   var requests = 0;
   var getWikiBox = function(monarch) {
     $.ajax({
         type: "GET",
-        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + monarch + "&callback=?",
+        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + monarch + "&redirects&callback=?",
         contentType: "application/json; charset=utf-8",
         async: false,
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
-            // check original page
-            // console.log(data.parse.text['*']);
             // add html to page (invisible via css)
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
+            console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
             // get main character information
-            $('#display').append('<p><strong>Main guy</strong>: ' + data.parse.title + '</p>');
+            $('#display').append('<strong>Main guy</strong>: ' + data.parse.title);
             // get successor information
-            var successor = infobox.find('th:contains("Successor")').next();
-            successor = successor.first();
+            var successor = infobox.find('th:contains("Successor")').next().first();
             successor.prepend('<strong>That guy\'s successor</strong>: ');
             $('#display').append(successor);
             // get successors url info 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
-
-            requests++;
-            // console.log('monarch ' + monarch);
-            // console.log('successor', successor.text());
-            // console.log('url' + url);
+            // make recursive ajax call three levels down
             if(requests < 3) {
               getWikiBox(url);
             }
+            requests++;
         },
         error: function (errorMessage) {
         }
     });
   };
-  getWikiBox('Charles_V,_Holy_Roman_Emperor');
+  // getWikiBox('Charles_V,_Holy_Roman_Emperor');
+  var searchBox = function(query) {
+    $(document).ready(function(){
+        $.ajax({
+            type: "GET",
+            url: "http://en.wikipedia.org/w/api.php?action=opensearch&search="+ query +"&limit=1&namespace=0&format=json&callback=?",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            dataType: "json",
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+                var arr = data[3][0].split('/');
+                var string = arr[arr.length - 1];
+                getWikiBox(string);
+            },
+            error: function (errorMessage) {
+              console.log(errorMessage);
+            }
+        });
+    });
+  };
 });
+
