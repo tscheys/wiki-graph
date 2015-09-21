@@ -15,12 +15,17 @@ $(function() {
       dataType: "json",
       success: function (data, textStatus, jqXHR) {
           content = data.parse.text['*'];
+          console.log(content);
           // console.log(data.parse.text['*']);
-          $('#content').append('<p>' + data.parse.title + '</p>');
           var html = $.parseHTML(data.parse.text['*']);
           $('#content').append(html);
           // var box = $(content).query('.infobox vcard').text();
           // console.log(box);
+          var infobox = $('#content .infobox');
+          var successor = $('#content .infobox').find('th:contains("Successor")').next();
+          var successor = successor.first();
+          $('#display').append(success);
+          $('#diplay').append('<p>' + data.parse.title + '</p>');
           
 
       },
