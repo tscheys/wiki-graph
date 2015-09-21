@@ -14,10 +14,14 @@ $(function() {
       async: false,
       dataType: "json",
       success: function (data, textStatus, jqXHR) {
-          content = data;
-          console.log(data.parse.text['*']);
+          content = data.parse.text['*'];
+          // console.log(data.parse.text['*']);
           $('#content').append('<p>' + data.parse.title + '</p>');
-          $('#content').append(data.parse.text['*']);
+          var html = $.parseHTML(data.parse.text['*']);
+          $('#content').append(html);
+          // var box = $(content).query('.infobox vcard').text();
+          // console.log(box);
+          
 
       },
       error: function (errorMessage) {
