@@ -11,7 +11,7 @@ $(function() {
   var getWikiBox = function(monarch) {
     $.ajax({
         type: "GET",
-        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page=" + monarch + "&redirects&callback=?",
+        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&page=" + monarch + "&redirects&callback=?",
         contentType: "application/json; charset=utf-8",
         async: false,
         dataType: "json",
@@ -23,7 +23,9 @@ $(function() {
             console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
-            // var mainText = $();
+            var main = $('#content').find('span.mw-headline').first().parent().nextAll('p').first().text();
+            var funFact = main.split('.')[0];
+            
 
             var successor = infobox.find('th:contains("Successor")').next().first();
             var reignDate = infobox.find('th:contains("Reign")').next().first();
@@ -31,13 +33,13 @@ $(function() {
             // var funFact = 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
-            link = 'http://en.wikipedia.org/wiki/' + monarch;
-            console.log(link);
+            var link = 'http://en.wikipedia.org/wiki/' + monarch;
             monarchs.push({
               name: data.parse.title,
               successor: successor.text(),
               reign: reignYear,
-              url: link
+              url: link,
+              funFact: funFact
             });
 
             makeVisual(monarchs);
@@ -90,7 +92,11 @@ var makeVisual = function(monarchs) {
   .attr('class', 'panel panel-default person')
 
   .html(function(d) {
-    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div><div class="panel-body"><strong><p>Reign</strong>: ' + d.reign + ' ' + '</p></div>';
+    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div> \
+    <div class="panel-body"> \
+    <p><strong>Reign: </strong>: ' + d.reign + '</p> \
+    <p><strong>Fun fact: </strong>: ' + d.funFact + '</p> \
+    </div>';
   });
 };
 
