@@ -14,9 +14,19 @@
 <body>
   <div id="wrapper">
   <h1>WikiGraph</h1>
+  <p class="lead">WikiGraph gives you a visual representation of the links existing between different Wikipedia pages. Technologies used: Wikipedia API, JQuery and d3</p>
+  <p class="lead">As for now, it only works for medieval kings.</p>
   <form class="form-inline">
     <div class="form-group">
       <input id="monarch" class="form-control" type="text" placeholder="Enter a monarch...">
+    </div>
+    <div class="form-group">
+      <select class="form-control">
+        <option value="Successor">Show successors</option>
+        <option value="Predecessor">Show predecessors</option>
+        <option value="Father">Show lineage on father side</option>
+        <option value="Mother">Show lineage on mother side</option>
+      </select>
     </div>
     <button id="search" class="btn btn-primary">Search Monarch</button>
   </form>
