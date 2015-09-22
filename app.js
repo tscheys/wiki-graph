@@ -20,10 +20,11 @@ $(function() {
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
-            console.log(data.parse.text['*']);
+            // console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
-            var main = $('#content').find('span.mw-headline').first().parent().nextAll('p').first().text();
+            var randomNumber = Math.floor(Math.random() * 3);
+            var main = $('#content').find('span.mw-headline:eq('+ randomNumber +')').parent().nextAll('p').first().text();
             var funFact = main.split('.')[0];
             
 
