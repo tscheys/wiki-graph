@@ -43,6 +43,7 @@ $(function() {
             }
             else {
               console.log(monarchs);
+              makeVisual(monarchs);
               requests = 0;
             }
             requests++;
@@ -79,4 +80,17 @@ $(function() {
     });
   };
 });
+
+var makeVisual = function(monarchs) {
+  console.log('d3 function has been called');
+  var field = d3.select('#visual');
+  field.selectAll('.person')
+  .data(monarchs)
+  .enter().append('div')
+  .attr('class', 'person')
+  .style('border', '3px solid black')
+  .text(function(d) {
+    return d.name;
+  });
+};
 
