@@ -50,7 +50,6 @@ $(function() {
             }
             else {
               requests = 0;
-              $('#content').empty();
               makeVisual(monarchs);
             }
             requests++;
@@ -88,13 +87,14 @@ $(function() {
 });
 
 var makeVisual = function(monarchs) {
+  console.log('jooooo');
   var field = d3.select('#visual');
   field.selectAll('.person')
   .data(monarchs)
   .enter().append('div')
   .attr('class', 'panel panel-default person')
-  .text(function(d) {
-    return d.name;
+  .html(function(d) {
+    return d.name + ' ' + d.reign + ' ' + '<a href='+ d.url +'>Link to wikipedia</a>';
   });
 };
 
