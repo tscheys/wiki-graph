@@ -1,7 +1,11 @@
 #content {
-  visibility: hidden;
+  display: none;
 }
 body {
   margin: auto;
   width: 60%;
+}
+#display {
+  width: 800px;
+  height: 1000px;
 }

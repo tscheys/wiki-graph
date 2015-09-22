@@ -20,31 +20,38 @@ $(function() {
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
-            console.log(data.parse.text['*']);
+            // console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
             // get main character information
-            $('#display').append('<strong>Main guy</strong>: ' + data.parse.title);
+            // $('#display').append('<strong>Main guy</strong>: ' + data.parse.title);
             // get successor information
             var successor = infobox.find('th:contains("Successor")').next().first();
-            monarchs.push({
-              name: data.parse.title,
-              successor: successor.text()
-            });
-            successor.prepend('<strong>That guy\'s successor</strong>: ');
-            $('#display').append(successor);
-            // get successors url info 
+            var reignDate = infobox.find('th:contains("Reign")').next().first();
+            var reignYear = reignDate.text().split(' ')[2];
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
+            link = 'http://en.wikipedia.org/wiki/' + url;
+            console.log(link);
+            monarchs.push({
+              name: data.parse.title,
+              successor: successor.text(),
+              reign: reignYear,
+              url: link
+            });
+            // successor.prepend('<strong>That guy\'s successor</strong>: ');
+            // $('#display').append(successor);
+            // get successors url info 
             // push this monarchs information into the monarchs array
             // make recursive ajax call three levels down
-            makeVisual(monarchs);
-            if(requests < 3) {
+
+            if(requests < 5) {
               getWikiBox(url);
             }
             else {
-              console.log(monarchs);
               requests = 0;
+              $('#content').empty();
+              makeVisual(monarchs);
             }
             requests++;
         },
@@ -62,7 +69,6 @@ $(function() {
             async: false,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
                 var wasFound = Boolean(data[1].length !== 0);
                 if(wasFound) {
                   var arr = data[3][0].split('/');
