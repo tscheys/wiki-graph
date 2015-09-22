@@ -93,13 +93,9 @@ var makeVisual = function(monarchs) {
   .data(monarchs)
   .enter().append('div')
   .attr('class', 'panel panel-default person')
-<<<<<<< HEAD
+
   .html(function(d) {
-    return d.name + ' ' + d.reign + ' ' + '<a href='+ d.url +'>Link to wikipedia</a>';
-=======
-  .text(function(d) {
-    return d.name;
->>>>>>> d60f4dfcb91973fa575c29831b81669e6d03f1ac
+    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div><div class="panel-body"><strong>Reign</strong>: ' + d.reign + ' ' + '</div>';
   });
 };
 
