@@ -1,11 +1,11 @@
 $(function() {
   // data 
   // search functionality
+  var monarchs = [];
   $('#search').on('click', function(e) {
     var query = $("#monarch").val();
     searchBox(query);
   });
-  var monarchs = [];
   // ajax request
   var requests = 0;
   var getWikiBox = function(monarch) {
@@ -20,15 +20,15 @@ $(function() {
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
-            // console.log(data.parse.text['*']);
+            console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
-            // get main character information
-            // $('#display').append('<strong>Main guy</strong>: ' + data.parse.title);
-            // get successor information
+            // var mainText = $();
+
             var successor = infobox.find('th:contains("Successor")').next().first();
             var reignDate = infobox.find('th:contains("Reign")').next().first();
-            var reignYear = reignDate.text().split(' ')[2];
+            var reignYear = reignDate.text();
+            // var funFact = 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
             link = 'http://en.wikipedia.org/wiki/' + url;
@@ -39,11 +39,7 @@ $(function() {
               reign: reignYear,
               url: link
             });
-            // successor.prepend('<strong>That guy\'s successor</strong>: ');
-            // $('#display').append(successor);
-            // get successors url info 
-            // push this monarchs information into the monarchs array
-            // make recursive ajax call three levels down
+
             makeVisual(monarchs);
             if(requests < 5) {
               getWikiBox(url);
@@ -51,6 +47,7 @@ $(function() {
             else {
               requests = 0;
               makeVisual(monarchs);
+              monarchs = [];
             }
             requests++;
         },
@@ -59,7 +56,6 @@ $(function() {
     });
   };
   var searchBox = function(query) {
-    $('#display').empty();
     $(document).ready(function(){
         $.ajax({
             type: "GET",
@@ -87,7 +83,6 @@ $(function() {
 });
 
 var makeVisual = function(monarchs) {
-  console.log('jooooo');
   var field = d3.select('#visual');
   field.selectAll('.person')
   .data(monarchs)
@@ -95,7 +90,7 @@ var makeVisual = function(monarchs) {
   .attr('class', 'panel panel-default person')
 
   .html(function(d) {
-    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div><div class="panel-body"><strong>Reign</strong>: ' + d.reign + ' ' + '</div>';
+    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div><div class="panel-body"><strong><p>Reign</strong>: ' + d.reign + ' ' + '</p></div>';
   });
 };
 

@@ -11,13 +11,11 @@ Roadmap for MVP:
 - display that information x
 - make an api call to that succesor's page on wikipedia and display his information x
 - make a function that will keep doing this 3 levels deep x
-<<<<<<< HEAD
-- print title of king and start and end year of reign
-- print link
-- make vertical timeline
-=======
-- make it into some kind of pedigree with d3 x
-- users should be able to click a link to that monarch's page 
->>>>>>> d60f4dfcb91973fa575c29831b81669e6d03f1ac
+- print title of king and start and end year of reign x
+- print link x
+- users should be able to click a link to that monarch's page x
 - make presentation 
+
+Bugs: 
+- links point to wrong pages
 
