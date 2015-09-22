@@ -25,12 +25,11 @@ $(function() {
             // console.log(data.parse.text['*']);
             // query infobox
             var infobox = $('#content .infobox');
+            // console.log(infobox.html());
             var randomNumber = Math.floor(Math.random() * 3);
             var main = $('#content').find('span.mw-headline:eq('+ randomNumber +')').parent().nextAll('p').first().text();
             var funFact = main.split('.')[0];
-            
-
-            var successor = infobox.find('th:contains("Successor")').next().first();
+            var successor = infobox.find('th:contains("Successor")').next().first(); 
             var reignDate = infobox.find('th:contains("Reign")').next().first();
             var reignYear = reignDate.text();
             // var funFact = 
@@ -44,7 +43,10 @@ $(function() {
               url: link,
               funFact: funFact
             });
-
+            // var kingdom = infobox.find('span.nowrap').first().children().first().text();
+            // if(!requests) {
+            //   $('#title').html(kingdom);
+            // }
             makeVisual(monarchs);
             if(requests < 5) {
               getWikiBox(url);
@@ -92,14 +94,18 @@ var makeVisual = function(monarchs) {
   field.selectAll('.person')
   .data(monarchs)
   .enter().append('div')
-  .attr('class', 'panel panel-default person')
+  .attr('class', 'person')
 
   .html(function(d) {
-    return '<div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div> \
-    <div class="panel-body"> \
-    <p><strong>Reign: </strong>: ' + d.reign + '</p> \
-    <p><strong>Fun fact: </strong>: ' + d.funFact + '</p> \
+    return '<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> \
+    <div class="panel panel-default"> \
+      <div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div> \
+      <div class="panel-body"> \
+        <p><strong>Reign: </strong>: ' + d.reign + '</p> \
+        <p><strong>Fun fact: </strong>: ' + d.funFact + '</p> \
+      <div> \
     </div>';
-  });
+  })
+  .transition();
 };
 
