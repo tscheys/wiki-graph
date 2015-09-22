@@ -1,10 +1,9 @@
+// variable declaration
+var monarchs = [];
+
 $(function() {
-  // data 
-  // search functionality
-  var monarchs = [];
   $('#search').on('click', function(e) {
     e.preventDefault();
-    console.log('test');
     var query = $("#monarch").val();
     var select = $('select').val();
     $('#visual').empty();
@@ -36,7 +35,7 @@ $(function() {
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
-            console.log(data.parse.text['*']);
+            // console.log(data.parse.text['*']);
 
             var disambigation = $('#content').find('p:contains("may refer to:")').nextAll('ul').first();
             if(disambigation.length > 0) {
