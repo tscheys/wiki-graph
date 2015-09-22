@@ -31,7 +31,6 @@ $(function() {
               name: data.parse.title,
               successor: successor.text()
             });
-
             successor.prepend('<strong>That guy\'s successor</strong>: ');
             $('#display').append(successor);
             // get successors url info 
