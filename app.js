@@ -3,6 +3,8 @@ $(function() {
   // search functionality
   var monarchs = [];
   $('#search').on('click', function(e) {
+    e.preventDefault();
+    console.log('test');
     var query = $("#monarch").val();
     searchBox(query);
   });

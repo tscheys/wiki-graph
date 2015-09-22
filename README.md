@@ -17,6 +17,6 @@ Roadmap for MVP:
 - make presentation 
 
 Bugs: 
-- links point to wrong pages
+- links point to wrong pages v
 - flush visual div
 
