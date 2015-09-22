@@ -44,7 +44,7 @@ $(function() {
             // get successors url info 
             // push this monarchs information into the monarchs array
             // make recursive ajax call three levels down
-
+            makeVisual(monarchs);
             if(requests < 5) {
               getWikiBox(url);
             }
@@ -93,8 +93,13 @@ var makeVisual = function(monarchs) {
   .data(monarchs)
   .enter().append('div')
   .attr('class', 'panel panel-default person')
+<<<<<<< HEAD
   .html(function(d) {
     return d.name + ' ' + d.reign + ' ' + '<a href='+ d.url +'>Link to wikipedia</a>';
+=======
+  .text(function(d) {
+    return d.name;
+>>>>>>> d60f4dfcb91973fa575c29831b81669e6d03f1ac
   });
 };
 
