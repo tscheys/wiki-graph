@@ -19,65 +19,63 @@ $(function() {
         async: false,
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
+            // are we on a disambigation page 
+
             // add html to page (invisible via css)
             $('#content').empty();
             var html = $.parseHTML(data.parse.text['*']);
             $('#content').append(html);
-            // console.log(data.parse.text['*']);
-            // query infobox
-            var infobox = $('#content .infobox');
-            var randomNumber = Math.floor(Math.random() * 3);
-            // GENERAL
-            var main = $('#content').find('span.mw-headline:eq('+ randomNumber +')').parent().nextAll('p').first().text();
-            var funFact = main.split('.')[0];
-            
-            // SUCCESSOR PREDECESSOR
-            var successor;
-            var getSuccessor = function (type) {
-              successor = infobox.find('th:contains('+ type +')').next().first(); 
-            };
-            getSuccessor(type);
+            console.log(data.parse.text['*']);
 
-            // if(type === "Successor") {
-            //   var successor = infobox.find('th:contains("Successor")').next().first(); 
-            // }
-            // if(type === "Predecessor") {
-            //   var successor = infobox.find('th:contains("Predecessor")').next().first(); 
-            // }
-            // if(type === "Mother") {
-            //   var successor = infobox.find('th:contains("Mother")').next().first(); 
-            // }
-            // if(type === "Father") {
-            //   var successor = infobox.find('th:contains("Father")').next().first(); 
-            // }
-            var reignDate = infobox.find('th:contains("Reign")').next().first();
-            var reignYear = reignDate.text();
+            var disambigation = $('#content').find('p:contains("may refer")').nextAll('ul').first();
+            if(disambigation.length > 0) {
 
-            // GENERAL
-            var url = successor.find('a').attr('href');
-            url = url.split('/')[2];
-            var link = 'http://en.wikipedia.org/wiki/' + monarch;
-            monarchs.push({
-              name: data.parse.title,
-              successor: successor.text(),
-              reign: reignYear,
-              url: link,
-              funFact: funFact
-            });
-            // var kingdom = infobox.find('span.nowrap').first().children().first().text();
-            // if(!requests) {
-            //   $('#title').html(kingdom);
-            // }
-            makeVisual(monarchs);
-            if(requests < 5) {
-              getWikiBox(url, type);
-            }
+              $('#visual').append("<h2>There are bunch of guys with that name, select one:");
+              $('#visual').append(disambigation);
+            } 
             else {
-              requests = 0;
+              // query infobox
+              var infobox = $('#content .infobox');
+              var randomNumber = Math.floor(Math.random() * 3);
+              // GENERAL
+              var main = $('#content').find('span.mw-headline:eq('+ randomNumber +')').parent().nextAll('p').first().text();
+              var funFact = main.split('.')[0];
+              
+              // SUCCESSOR PREDECESSOR
+              var successor;
+              var getSuccessor = function (type) {
+                successor = infobox.find('th:contains('+ type +')').next().first(); 
+              };
+              getSuccessor(type);
+              var reignDate = infobox.find('th:contains("Reign")').next().first();
+              var reignYear = reignDate.text();
+
+              // GENERAL
+              var url = successor.find('a').attr('href');
+              if(url !== undefined) {
+                url = url.split('/')[2] 
+              }
+              var link = 'http://en.wikipedia.org/wiki/' + monarch;
+              monarchs.push({
+                name: data.parse.title,
+                successor: successor.text(),
+                reign: reignYear,
+                url: link,
+                funFact: funFact
+              });
+
               makeVisual(monarchs);
-              monarchs = [];
-            }
-            requests++;
+              if(requests < 5 && url !== undefined) {
+                getWikiBox(url, type);
+              }
+              else {
+                requests = 0;
+                makeVisual(monarchs);
+                monarchs = [];
+              }
+              requests++;
+              
+            } 
         },
         error: function (errorMessage) {
         }
@@ -92,10 +90,13 @@ $(function() {
             async: false,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
+                console.log('data from open search: '+ data);
                 var wasFound = Boolean(data[1].length !== 0);
                 if(wasFound) {
-                  var arr = data[3][0].split('/');
+                  var arr = data[data.length - 1][0].split('/');
                   var string = arr[arr.length - 1];
+                  console.log('arr ' +arr);
+                  console.log(typeof string);
                   getWikiBox(string, link);
                 } 
                 else {
@@ -126,7 +127,6 @@ var makeVisual = function(monarchs) {
         <p><strong>Fun fact </strong>: ' + d.funFact + '</p> \
       <div> \
     </div>';
-  })
-  .transition();
+  });
 };
 
