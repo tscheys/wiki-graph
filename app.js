@@ -7,7 +7,18 @@ $(function() {
     console.log('test');
     var query = $("#monarch").val();
     var select = $('select').val();
+    $('#visual').empty();
     searchBox(query, select);
+  });
+
+  $('.disambiguation').on('click', function(e) {
+    console.log('jooojojoj');
+    e.preventDefault();
+    var url = this.attr('href');
+    var select = $('select').val();
+    var page = url.split('/')[url.length - 1];
+    console.log(page, select);
+    getWikiBox(page, select);
   });
   // ajax request
   var requests = 0;
@@ -27,10 +38,18 @@ $(function() {
             $('#content').append(html);
             console.log(data.parse.text['*']);
 
-            var disambigation = $('#content').find('p:contains("may refer")').nextAll('ul').first();
+            var disambigation = $('#content').find('p:contains("may refer to:")').nextAll('ul').first();
             if(disambigation.length > 0) {
 
               $('#visual').append("<h2>There are bunch of guys with that name, select one:");
+              disambigation = disambigation.children();
+              console.log(disambigation);
+              $(disambigation).each(function(index, element) {
+                element = $(element).children();
+                console.log(element);
+                $(element).attr('class', 'disambiguation');
+                $(element).attr('href', '#');
+              });
               $('#visual').append(disambigation);
             } 
             else {
@@ -120,13 +139,13 @@ var makeVisual = function(monarchs) {
 
   .html(function(d) {
     return '<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> \
-    <div class="panel panel-default"> \
-      <div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div> \
-      <div class="panel-body"> \
-        <p><strong>Reign </strong>: ' + d.reign + '</p> \
-        <p><strong>Fun fact </strong>: ' + d.funFact + '</p> \
-      <div> \
-    </div>';
+            <div class="panel panel-default"> \
+              <div class="panel-heading"><a href='+ d.url +'>'+ d.name+'</a></div> \
+              <div class="panel-body"> \
+                <p><strong>Reign </strong>: ' + d.reign + '</p> \
+                <p><strong>Fun fact </strong>: ' + d.funFact + '</p> \
+              <div> \
+            </div>';
   });
 };
 
