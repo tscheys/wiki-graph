@@ -38,12 +38,12 @@ $(function() {
             url = url.split('/')[2];
             // push this monarchs information into the monarchs array
             // make recursive ajax call three levels down
+            makeVisual(monarchs);
             if(requests < 3) {
               getWikiBox(url);
             }
             else {
               console.log(monarchs);
-              makeVisual(monarchs);
               requests = 0;
             }
             requests++;
@@ -87,8 +87,7 @@ var makeVisual = function(monarchs) {
   field.selectAll('.person')
   .data(monarchs)
   .enter().append('div')
-  .attr('class', 'person')
-  .style('border', '3px solid black')
+  .attr('class', 'panel panel-default person')
   .text(function(d) {
     return d.name;
   });

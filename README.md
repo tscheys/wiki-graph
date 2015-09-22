@@ -11,6 +11,7 @@ Roadmap for MVP:
 - display that information x
 - make an api call to that succesor's page on wikipedia and display his information x
 - make a function that will keep doing this 3 levels deep x
-- make it into some kind of pedigree with d3 
+- make it into some kind of pedigree with d3 x
+- users should be able to click a link to that monarch's page 
 - make presentation 
 
