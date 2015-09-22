@@ -18,4 +18,5 @@ Roadmap for MVP:
 
 Bugs: 
 - links point to wrong pages
+- flush visual div
 

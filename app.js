@@ -31,7 +31,7 @@ $(function() {
             // var funFact = 
             var url = successor.find('a').attr('href');
             url = url.split('/')[2];
-            link = 'http://en.wikipedia.org/wiki/' + url;
+            link = 'http://en.wikipedia.org/wiki/' + monarch;
             console.log(link);
             monarchs.push({
               name: data.parse.title,
